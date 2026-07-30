@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doelgroepen Agent · Spring Real Estate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0c0c0c;--sur:#161615;--s2:#1f1f1e;
+  --ink:#fff;--muted:#AFAEB2;--koud:#8a8a8c;
+  --bd:#2f2f2d;--line:#3C3C3B;
+  --g:#7CA73F;--gl:#89B647;--rood:#d9713e;
+  --fn:"Raleway",system-ui,-apple-system,sans-serif;
+  --r:12px;--rsm:8px;
+}
+body{font-family:var(--fn);background:var(--bg);color:var(--ink);line-height:1.5;min-height:100vh;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column}
+
+/* ── MODAL ── */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal{background:var(--sur);border:1px solid var(--bd);border-radius:16px;padding:36px;max-width:460px;width:100%}
+.modal-logo{display:flex;align-items:center;gap:10px;margin-bottom:28px}
+.modal-mark{width:34px;height:34px;background:var(--g);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:17px;color:#fff}
+.modal-brand{font-weight:800;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--g)}
+.modal h2{font-size:21px;font-weight:800;margin-bottom:8px}
+.modal p{font-size:13.5px;color:var(--muted);line-height:1.65;margin-bottom:22px}
+.modal-link{color:var(--gl);text-decoration:none;font-weight:700}
+.modal-link:hover{text-decoration:underline}
+.modal-lbl{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;display:block}
+.modal-input{width:100%;padding:13px 15px;background:var(--bg);border:1px solid var(--bd);border-radius:var(--rsm);color:var(--ink);font-family:var(--fn);font-size:14px;outline:none;transition:border-color .15s;margin-bottom:14px}
+.modal-input:focus{border-color:var(--g)}
+.modal-input::placeholder{color:var(--koud)}
+.modal-btn{width:100%;padding:14px;background:var(--g);color:#fff;border:none;border-radius:var(--rsm);font-family:var(--fn);font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:background .15s}
+.modal-btn:hover{background:var(--gl)}
+.modal-note{font-size:11.5px;color:var(--koud);margin-top:12px;text-align:center;line-height:1.5}
+
+/* ── TOP BAR ── */
+.top{position:sticky;top:0;z-index:20;background:rgba(12,12,12,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:0 24px;height:54px;display:flex;align-items:center;gap:14px}
+.s-mark{width:28px;height:28px;background:var(--g);border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:#fff;flex-shrink:0}
+.v-sep{width:1px;height:22px;background:var(--line)}
+.brand-name{font-weight:800;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--g);line-height:1.1}
+.brand-sub{font-size:9px;font-weight:600;letter-spacing:.07em;color:var(--muted);margin-top:1px}
+.top-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.key-btn{background:none;border:1px solid var(--bd);color:var(--koud);font-family:var(--fn);font-size:10.5px;padding:5px 12px;border-radius:999px;cursor:pointer;transition:border-color .15s,color .15s;letter-spacing:.03em}
+.key-btn:hover{border-color:var(--g);color:var(--gl)}
+
+/* ── HERO ── */
+.hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding:52px 20px 40px}
+.eyebrow{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gl);margin-bottom:20px}
+h1{font-size:clamp(28px,5vw,48px);font-weight:800;letter-spacing:-.02em;line-height:1.05;margin-bottom:14px}
+h1 em{font-style:normal;color:var(--gl)}
+.sub{font-size:15px;color:var(--muted);max-width:52ch;line-height:1.7;margin-bottom:40px}
+
+/* ── FORM ── */
+.form-card{width:100%;max-width:760px;background:var(--sur);border:1px solid var(--bd);border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:24px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:600px){.form-grid{grid-template-columns:1fr}}
+.form-full{grid-column:1/-1}
+.fld{display:flex;flex-direction:column;gap:6px}
+.fld label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.fld input,.fld select,.fld textarea{background:var(--bg);border:1px solid var(--bd);border-radius:var(--rsm);color:var(--ink);font-family:var(--fn);font-size:14px;padding:12px 15px;outline:none;transition:border-color .15s;width:100%}
+.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--g)}
+.fld input::placeholder,.fld textarea::placeholder{color:var(--koud)}
+.fld select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238a8a8c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;cursor:pointer}
+.fld select option{background:var(--sur)}
+.fld textarea{resize:vertical;min-height:72px;line-height:1.6}
+.price-row{display:flex;align-items:center;gap:10px}
+.price-sep{color:var(--koud);font-size:13px;flex-shrink:0}
+.price-row input{flex:1}
+.form-hint{font-size:11.5px;color:var(--koud);margin-top:2px;line-height:1.5}
+.run-btn{width:100%;padding:16px;background:var(--g);color:#fff;border:none;border-radius:var(--rsm);font-family:var(--fn);font-size:13px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:background .15s,transform .1s}
+.run-btn:hover{background:var(--gl)}
+.run-btn:active{transform:scale(.98)}
+.run-btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.run-icon{width:16px;height:16px}
+
+/* ── STATUS ── */
+.status-bar{width:100%;max-width:760px;margin-top:14px;display:none;background:var(--sur);border:1px solid var(--bd);border-radius:var(--r);padding:20px 24px}
+.status-bar.show{display:block}
+.st-lbl{font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gl);margin-bottom:6px}
+.st-proj{font-size:13px;color:var(--ink);font-weight:700;margin-bottom:12px}
+.st-row{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--muted)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--gl);flex-shrink:0;animation:blink 1.2s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.12}}
+.steps-list{list-style:none;display:flex;flex-direction:column;gap:6px;margin-top:14px}
+.step-item{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--koud)}
+.step-item.active{color:var(--ink)}
+.step-item.done{color:var(--gl)}
+.step-dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0}
+
+/* ── RESULTS ── */
+.results{padding:0 20px 72px;max-width:900px;margin:0 auto;width:100%;display:none}
+
+.res-header{text-align:center;padding:44px 0 40px}
+.res-proj{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.res-title{font-size:clamp(24px,4vw,38px);font-weight:800;letter-spacing:-.02em;margin-bottom:12px}
+.res-title em{font-style:normal;color:var(--gl)}
+.res-sum{font-size:14px;color:var(--muted);max-width:60ch;margin:0 auto;line-height:1.75}
+
+.section-lbl{font-size:9.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.section-lbl::after{content:'';flex:1;height:1px;background:var(--line)}
+
+/* Persona grid */
+.persona-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-bottom:40px}
+@media(max-width:600px){.persona-grid{grid-template-columns:1fr}}
+
+.p-card{background:var(--sur);border:1px solid var(--bd);border-radius:16px;overflow:hidden;transition:border-color .15s,transform .15s;cursor:pointer}
+.p-card:hover{border-color:var(--gl);transform:translateY(-2px)}
+.p-card.open{border-color:rgba(137,182,71,.4)}
+.p-top{padding:22px 22px 16px;display:flex;gap:14px;align-items:flex-start}
+.p-avatar{width:48px;height:48px;background:rgba(124,167,63,.12);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;border:1px solid rgba(124,167,63,.2)}
+.p-info{flex:1;min-width:0}
+.p-name{font-size:15px;font-weight:800;margin-bottom:4px}
+.p-age{font-size:12px;color:var(--muted);margin-bottom:8px}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chip{font-size:10px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--bg);border:1px solid var(--bd);color:var(--koud);white-space:nowrap}
+.chip.green{background:rgba(137,182,71,.08);border-color:rgba(137,182,71,.2);color:var(--gl)}
+.p-toggle{display:flex;align-items:center;justify-content:space-between;padding:0 22px 16px;font-size:11.5px;color:var(--koud);font-weight:600;letter-spacing:.03em}
+.toggle-icon{transition:transform .2s;color:var(--koud)}
+.p-card.open .toggle-icon{transform:rotate(180deg)}
+
+.p-body{display:none;padding:0 22px 22px}
+.p-card.open .p-body{display:block}
+.p-section{margin-top:18px}
+.p-sec-lbl{font-size:9px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;margin-bottom:9px;display:flex;align-items:center;gap:7px}
+.p-sec-lbl span{font-size:14px}
+.p-bullets{list-style:none;display:flex;flex-direction:column;gap:7px}
+.p-bullets li{display:flex;gap:9px;font-size:13px;color:var(--muted);line-height:1.55}
+.p-bull-dot{width:5px;height:5px;border-radius:50%;background:var(--g);flex-shrink:0;margin-top:8px}
+.p-bull-dot.red{background:var(--rood)}
+
+/* Journey */
+.journey-wrap{display:flex;flex-direction:column;gap:0;margin-top:2px}
+.journey-step{display:flex;gap:12px;align-items:flex-start}
+.j-line-col{display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:20px}
+.j-dot{width:10px;height:10px;border-radius:50%;background:var(--g);border:2px solid var(--bg);flex-shrink:0;margin-top:4px}
+.j-line{width:2px;flex:1;background:var(--line);min-height:20px;margin:3px 0}
+.journey-step:last-child .j-line{display:none}
+.j-content{padding-bottom:14px;flex:1}
+.j-phase{font-size:9px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gl);margin-bottom:3px}
+.j-text{font-size:12.5px;color:var(--muted);line-height:1.55}
+
+/* Kanalen + boodschap */
+.kanalen-row{display:flex;flex-wrap:wrap;gap:6px}
+.boodschap-card{background:linear-gradient(135deg,rgba(124,167,63,.08),rgba(137,182,71,.03));border:1px solid rgba(124,167,63,.2);border-radius:var(--rsm);padding:14px 16px;margin-top:8px}
+.boodschap-text{font-size:13.5px;color:var(--muted);line-height:1.7;font-style:italic}
+
+/* Aanbevelingen */
+.aanbev-list{display:flex;flex-direction:column;gap:8px;margin-bottom:40px}
+.aanbev-item{background:var(--sur);border:1px solid var(--bd);border-radius:var(--r);padding:16px 18px;display:flex;gap:13px;align-items:flex-start}
+.aanbev-n{font-size:10px;font-weight:800;color:var(--gl);background:rgba(137,182,71,.1);padding:3px 8px;border-radius:999px;flex-shrink:0;margin-top:1px;letter-spacing:.05em}
+.aanbev-text{font-size:13.5px;color:var(--muted);line-height:1.6}
+
+/* Actions */
+.actions{display:flex;gap:10px;justify-content:center;margin-top:40px;flex-wrap:wrap}
+.act-btn{padding:12px 26px;border-radius:999px;font-family:var(--fn);font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:background .12s,border-color .12s,color .12s;display:flex;align-items:center;gap:8px;border:none}
+.act-primary{background:var(--g);color:#fff}
+.act-primary:hover{background:var(--gl)}
+.act-ghost{background:none;border:1px solid var(--bd);color:var(--muted)}
+.act-ghost:hover{border-color:var(--g);color:var(--gl)}
+.act-btn:disabled{opacity:.45;cursor:not-allowed}
+
+footer{text-align:center;font-size:10.5px;color:var(--koud);padding:20px;border-top:1px solid var(--line);letter-spacing:.06em;text-transform:uppercase;margin-top:auto}
+
+/* PDF hidden target */
+#pdf-output{position:absolute;left:-9999px;top:0;width:794px;background:#0c0c0c;font-family:"Raleway",system-ui,sans-serif;color:#ffffff;line-height:1.5}
+</style>
+</head>
+<body>
+
+<!-- ── SETUP MODAL ── -->
+<div class="modal-bg" id="setupModal" style="display:none">
+  <div class="modal">
+    <div class="modal-logo">
+      <div class="modal-mark">S</div>
+      <div class="modal-brand">Spring Real Estate</div>
+    </div>
+    <h2>Groq API-sleutel instellen</h2>
+    <p>De Doelgroepen Agent gebruikt Groq voor AI-analyse met internetzoekopdrachten. Maak een gratis sleutel aan op <a class="modal-link" href="https://console.groq.com" target="_blank">console.groq.com</a> → API Keys → Create API key.</p>
+    <label class="modal-lbl" for="apiKeyInput">Groq API-sleutel</label>
+    <input class="modal-input" id="apiKeyInput" type="password" placeholder="gsk_..." autocomplete="off" spellcheck="false"/>
+    <button class="modal-btn" onclick="saveKey()">Opslaan &amp; doorgaan</button>
+    <div class="modal-note">Sleutel wordt alleen lokaal opgeslagen in jouw browser.</div>
+  </div>
+</div>
+
+<!-- ── TOP BAR ── -->
+<div class="top">
+  <div class="s-mark">S</div>
+  <div class="v-sep"></div>
+  <div>
+    <div class="brand-name">Spring Real Estate</div>
+    <div class="brand-sub">Doelgroepen Agent &middot; Nieuwbouw</div>
+  </div>
+  <div class="top-right">
+    <button class="key-btn" onclick="resetKey()">&#9881; Sleutel</button>
+  </div>
+</div>
+
+<!-- ── HERO + FORM ── -->
+<div class="hero" id="hero">
+  <div class="eyebrow" id="eyebrow">Nieuwbouw &middot; Doelgroepen &middot; Marketing</div>
+  <h1 id="heroTitle">Vul het project in,<br><em>wij vinden de kopers</em></h1>
+  <p class="sub" id="heroSub">Beschrijf het nieuwbouwproject. Wij genereren realistische doelgroepen, koopmootieven, bezwaren en een volledige customer journey.</p>
+
+  <div class="form-card" id="formCard">
+    <div class="form-grid">
+      <div class="fld">
+        <label for="projNaam">Projectnaam</label>
+        <input id="projNaam" type="text" placeholder="bijv. The Quarter Amsterdam"/>
+      </div>
+      <div class="fld">
+        <label for="projLocatie">Locatie</label>
+        <input id="projLocatie" type="text" placeholder="bijv. Amsterdam-Noord, Almere Poort"/>
+      </div>
+      <div class="fld">
+        <label for="projType">Projecttype</label>
+        <select id="projType">
+          <option value="">Kies type…</option>
+          <option value="appartementen">Appartementen</option>
+          <option value="grondgebonden woningen">Grondgebonden woningen</option>
+          <option value="mixed (app + woningen)">Mixed (app + woningen)</option>
+          <option value="stadswoningen / herenhuizen">Stadswoningen / herenhuizen</option>
+          <option value="penthouses / luxe appartementen">Penthouses / luxe appartementen</option>
+          <option value="betaalbare koopwoningen">Betaalbare koopwoningen</option>
+        </select>
+      </div>
+      <div class="fld">
+        <label>Prijsklasse (v.o.n.)</label>
+        <div class="price-row">
+          <input id="prijsVan" type="text" placeholder="€ 250.000"/>
+          <span class="price-sep">–</span>
+          <input id="prijsTot" type="text" placeholder="€ 450.000"/>
+        </div>
+      </div>
+      <div class="fld form-full">
+        <label for="projOmgeving">Buurt &amp; omgeving</label>
+        <textarea id="projOmgeving" placeholder="bijv. Rustige nieuwbouwwijk naast het centrum, goede OV-verbinding, scholen op loopafstand, sportpark vlakbij…"></textarea>
+        <div class="form-hint">Beschrijf wat de locatie uniek maakt voor bewoners.</div>
+      </div>
+      <div class="fld form-full">
+        <label for="projUSP">Bijzondere kenmerken &amp; USPs</label>
+        <textarea id="projUSP" placeholder="bijv. Energieneutraal (EPC 0), privéparkeerplaats, ruime balkons op het zuiden, inpandige berging, VvE met portier…"></textarea>
+        <div class="form-hint">Wat maakt dit project onderscheidend t.o.v. de rest van de markt?</div>
+      </div>
+      <div class="fld form-full">
+        <label for="projExtra">Aanvullende context <span style="color:var(--koud);font-weight:400;text-transform:none;letter-spacing:0">(optioneel)</span></label>
+        <textarea id="projExtra" placeholder="bijv. Verkoop start Q2 2025, ontwikkelaar is BPD, ca. 120 woningen, specifieke doelgroep al in gedachten…"></textarea>
+      </div>
+    </div>
+    <button class="run-btn" id="runBtn" onclick="doAnalyse()">
+      <svg class="run-icon" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Analyseer doelgroepen
+    </button>
+  </div>
+
+  <div class="status-bar" id="statusBar">
+    <div class="st-lbl" id="stLbl">Bezig met analyseren</div>
+    <div class="st-proj" id="stProj"></div>
+    <div class="st-row"><div class="dot"></div><span id="stMsg">Marktcontext ophalen…</span></div>
+    <ul class="steps-list" id="stepsList">
+      <li class="step-item" id="step1"><div class="step-dot"></div>Marktdata ophalen via internet</li>
+      <li class="step-item" id="step2"><div class="step-dot"></div>Doelgroepen identificeren</li>
+      <li class="step-item" id="step3"><div class="step-dot"></div>Koopmootieven &amp; bezwaren bepalen</li>
+      <li class="step-item" id="step4"><div class="step-dot"></div>Customer journey uitwerken</li>
+      <li class="step-item" id="step5"><div class="step-dot"></div>Marketingaanbevelingen opstellen</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ── RESULTS ── -->
+<div class="results" id="resultsSection"></div>
+
+<!-- PDF hidden target -->
+<div id="pdf-output"></div>
+
+<footer>Spring Real Estate &nbsp;&middot;&nbsp; Projectmarketing &amp; Makelaardij</footer>
+
+<script>
+var KEY_STORE = 'spring_groq_key';
+var GROQ_URL  = 'https://api.groq.com/openai/v1/chat/completions';
+var MODEL     = 'compound-beta';
+var _data     = null;
+
+window.addEventListener('DOMContentLoaded', function() {
+  if (!localStorage.getItem(KEY_STORE)) showSetup();
+});
+
+function showSetup(){ document.getElementById('setupModal').style.display='flex'; }
+function resetKey(){ document.getElementById('apiKeyInput').value=''; showSetup(); }
+function saveKey(){
+  var k = document.getElementById('apiKeyInput').value.trim();
+  if (!k){ alert('Voer een geldige Groq API-sleutel in.'); return; }
+  localStorage.setItem(KEY_STORE, k);
+  document.getElementById('setupModal').style.display='none';
+}
+
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function setStep(n) {
+  for (var i=1; i<=5; i++) {
+    var el = document.getElementById('step'+i);
+    if (i < n) { el.className='step-item done'; el.querySelector('.step-dot').style.background='var(--gl)'; }
+    else if (i===n) { el.className='step-item active'; }
+    else { el.className='step-item'; }
+  }
+}
+
+async function doAnalyse() {
+  var apiKey = localStorage.getItem(KEY_STORE);
+  if (!apiKey){ showSetup(); return; }
+
+  var naam     = document.getElementById('projNaam').value.trim();
+  var locatie  = document.getElementById('projLocatie').value.trim();
+  var type     = document.getElementById('projType').value;
+  var prijsVan = document.getElementById('prijsVan').value.trim();
+  var prijsTot = document.getElementById('prijsTot').value.trim();
+  var omgeving = document.getElementById('projOmgeving').value.trim();
+  var usp      = document.getElementById('projUSP').value.trim();
+  var extra    = document.getElementById('projExtra').value.trim();
+
+  if (!naam || !locatie || !type) {
+    alert('Vul minimaal projectnaam, locatie en projecttype in.');
+    return;
+  }
+
+  // Lock form
+  document.getElementById('runBtn').disabled = true;
+  document.getElementById('formCard').style.opacity = '.4';
+  document.getElementById('formCard').style.pointerEvents = 'none';
+
+  var bar = document.getElementById('statusBar');
+  bar.classList.add('show');
+  document.getElementById('stProj').textContent = naam + (locatie ? ' · ' + locatie : '');
+  document.getElementById('stMsg').textContent = 'Marktcontext ophalen via internet…';
+  setStep(1);
+
+  var projectDesc = [
+    'Projectnaam: ' + naam,
+    'Locatie: ' + locatie,
+    'Projecttype: ' + type,
+    prijsVan || prijsTot ? 'Prijsklasse: ' + (prijsVan||'?') + ' – ' + (prijsTot||'?') : '',
+    omgeving ? 'Omgeving / buurt: ' + omgeving : '',
+    usp ? 'Bijzondere kenmerken / USPs: ' + usp : '',
+    extra ? 'Aanvullende context: ' + extra : ''
+  ].filter(Boolean).join('\n');
+
+  var systemPrompt = `Je bent een senior projectmarketingstrateeg gespecialiseerd in Nederlandse nieuwbouw. Je combineert diepgaande marktkennis van de Nederlandse woningmarkt met data-driven doelgroepanalyse.
+
+Gebruik je kennis van de lokale woningmarkt, demografie en koopgedrag in Nederland. Zoek indien nodig online naar actuele cijfers over de woningmarkt in de opgegeven locatie.
+
+Genereer ALTIJD geldig JSON – niets anders, geen uitleg buiten de JSON.
+
+Geef het resultaat terug als dit exacte JSON-schema:
+{
+  "samenvatting": "2-3 zinnen over marktpositie en kansen van het project",
+  "doelgroepen": [
+    {
+      "naam": "De naam van de doelgroep (max 4 woorden)",
+      "emoji": "1 passend emoji",
+      "leeftijd": "bijv. 28–40 jaar",
+      "situatie": "1 zin over levensfase en woonsituatie",
+      "inkomen": "bijv. €45.000–€70.000 bruto/jaar",
+      "koopmootieven": ["motief 1", "motief 2", "motief 3", "motief 4"],
+      "bezwaren": ["bezwaar 1", "bezwaar 2", "bezwaar 3"],
+      "journey": {
+        "bewustwording": "Hoe ontdekt deze groep het project?",
+        "orientatie": "Hoe vergelijkt en onderzoekt deze groep?",
+        "overweging": "Wat overtuigt of twijfelt hen?",
+        "beslissing": "Wat triggert de koopbeslissing?",
+        "after_sales": "Hoe gedraagt deze groep zich na koop?"
+      },
+      "kanalen": ["kanaal1", "kanaal2", "kanaal3"],
+      "boodschap": "De kernboodschap voor deze doelgroep in 1 pakkende zin"
+    }
+  ],
+  "aanbevelingen": [
+    "Concrete marketingaanbeveling 1",
+    "Concrete marketingaanbeveling 2",
+    "Concrete marketingaanbeveling 3",
+    "Concrete marketingaanbeveling 4"
+  ]
+}
+
+Geef 3 tot 4 realistische doelgroepen terug die passen bij dit specifieke project. Wees concreet en specifiek voor de Nederlandse markt en de opgegeven locatie.`;
+
+  var userPrompt = 'Analyseer dit nieuwbouwproject en identificeer de doelgroepen:\n\n' + projectDesc;
+
+  try {
+    setStep(2);
+    document.getElementById('stMsg').textContent = 'Doelgroepen identificeren…';
+
+    var resp = await fetch(GROQ_URL, {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + apiKey, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: MODEL,
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userPrompt }
+        ],
+        temperature: 0.6,
+        max_tokens: 4000,
+        response_format: { type: 'json_object' }
+      })
+    });
+
+    if (!resp.ok) {
+      var errBody = await resp.text();
+      // Fallback to llama if compound-beta not available
+      if (resp.status === 404 || resp.status === 400) {
+        await doAnalyseFallback(apiKey, systemPrompt, userPrompt, naam, locatie);
+        return;
+      }
+      throw new Error('Groq API fout: ' + resp.status + ' – ' + errBody);
+    }
+
+    var json = await resp.json();
+    setStep(3);
+    document.getElementById('stMsg').textContent = 'Koopmootieven & bezwaren verwerken…';
+
+    var raw = json.choices[0].message.content;
+    var parsed;
+    try {
+      parsed = JSON.parse(raw);
+    } catch(e) {
+      // Try to extract JSON block
+      var match = raw.match(/\{[\s\S]*\}/);
+      if (match) { parsed = JSON.parse(match[0]); }
+      else { throw new Error('Kon JSON niet parsen uit antwoord.'); }
+    }
+
+    setStep(4);
+    document.getElementById('stMsg').textContent = 'Customer journey uitwerken…';
+    await delay(600);
+    setStep(5);
+    document.getElementById('stMsg').textContent = 'Rapport samenstellen…';
+    await delay(500);
+
+    _data = { project: { naam, locatie, type, prijsVan, prijsTot }, result: parsed };
+    renderResults(parsed, naam, locatie);
+
+  } catch(err) {
+    document.getElementById('stLbl').style.color = 'var(--rood)';
+    document.getElementById('stMsg').textContent = err.message || 'Er is iets misgegaan.';
+    document.getElementById('runBtn').disabled = false;
+    document.getElementById('formCard').style.opacity = '1';
+    document.getElementById('formCard').style.pointerEvents = '';
+  }
+}
+
+async function doAnalyseFallback(apiKey, systemPrompt, userPrompt, naam, locatie) {
+  // Retry with standard llama model
+  var resp2 = await fetch(GROQ_URL, {
+    method: 'POST',
+    headers: { 'Authorization': 'Bearer ' + apiKey, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'llama-3.3-70b-versatile',
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt }
+      ],
+      temperature: 0.6,
+      max_tokens: 4000,
+      response_format: { type: 'json_object' }
+    })
+  });
+  if (!resp2.ok) {
+    var eb = await resp2.text();
+    throw new Error('Groq API fout: ' + resp2.status + ' – ' + eb);
+  }
+  var json2 = await resp2.json();
+  setStep(3);
+  document.getElementById('stMsg').textContent = 'Koopmootieven & bezwaren verwerken…';
+  var raw2 = json2.choices[0].message.content;
+  var parsed2;
+  try { parsed2 = JSON.parse(raw2); }
+  catch(e) {
+    var m = raw2.match(/\{[\s\S]*\}/);
+    if (m) { parsed2 = JSON.parse(m[0]); }
+    else { throw new Error('Kon JSON niet parsen.'); }
+  }
+  setStep(4); await delay(600);
+  setStep(5); await delay(500);
+  _data = { project: { naam, locatie }, result: parsed2 };
+  renderResults(parsed2, naam, locatie);
+}
+
+function delay(ms){ return new Promise(function(r){ setTimeout(r,ms); }); }
+
+function renderResults(data, naam, locatie) {
+  // Hide hero
+  document.getElementById('hero').style.display = 'none';
+
+  var doelgroepen = data.doelgroepen || [];
+  var aanbev      = data.aanbevelingen || [];
+  var samenvatting = data.samenvatting || '';
+
+  var personaCards = doelgroepen.map(function(p, i) {
+    var kanalenChips = (p.kanalen||[]).map(function(k){
+      return '<span class="chip green">'+esc(k)+'</span>';
+    }).join('');
+
+    var motivaties = (p.koopmootieven||[]).map(function(m){
+      return '<li><div class="p-bull-dot"></div><span>'+esc(m)+'</span></li>';
+    }).join('');
+
+    var bezwaren = (p.bezwaren||[]).map(function(b){
+      return '<li><div class="p-bull-dot red"></div><span>'+esc(b)+'</span></li>';
+    }).join('');
+
+    var journey = p.journey || {};
+    var fasen = [
+      { key:'bewustwording', label:'Bewustwording' },
+      { key:'orientatie',    label:'Oriëntatie' },
+      { key:'overweging',    label:'Overweging' },
+      { key:'beslissing',    label:'Beslissing' },
+      { key:'after_sales',   label:'After-sales' }
+    ];
+    var journeyHtml = fasen.filter(function(f){ return journey[f.key]; }).map(function(f){
+      return '<div class="journey-step"><div class="j-line-col"><div class="j-dot"></div><div class="j-line"></div></div><div class="j-content"><div class="j-phase">'+esc(f.label)+'</div><div class="j-text">'+esc(journey[f.key])+'</div></div></div>';
+    }).join('');
+
+    return '<div class="p-card" id="pcard'+i+'" onclick="toggleCard('+i+')">' +
+      '<div class="p-top">' +
+        '<div class="p-avatar">'+esc(p.emoji||'👤')+'</div>' +
+        '<div class="p-info">' +
+          '<div class="p-name">'+esc(p.naam)+'</div>' +
+          '<div class="p-age">'+esc(p.leeftijd||'')+(p.inkomen?' · '+esc(p.inkomen):'')+'</div>' +
+          '<div class="chips"><span class="chip">'+esc(p.situatie||'')+'</span></div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="p-toggle"><span>Bekijk profiel</span><svg class="toggle-icon" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 5l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
+      '<div class="p-body">' +
+        '<div class="p-section"><div class="p-sec-lbl"><span>🎯</span> Koopmootieven</div><ul class="p-bullets">'+motivaties+'</ul></div>' +
+        '<div class="p-section"><div class="p-sec-lbl"><span>⚠️</span> Bezwaren</div><ul class="p-bullets">'+bezwaren+'</ul></div>' +
+        '<div class="p-section"><div class="p-sec-lbl"><span>🗺</span> Customer Journey</div><div class="journey-wrap">'+journeyHtml+'</div></div>' +
+        '<div class="p-section"><div class="p-sec-lbl"><span>📣</span> Marketingkanalen</div><div class="kanalen-row">'+kanalenChips+'</div>' +
+        (p.boodschap ? '<div class="boodschap-card"><div style="font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gl);margin-bottom:6px">Kernboodschap</div><div class="boodschap-text">"'+esc(p.boodschap)+'"</div></div>' : '') +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+
+  var aanbevHtml = aanbev.map(function(a, i){
+    return '<div class="aanbev-item"><span class="aanbev-n">'+(i+1).toString().padStart(2,'0')+'</span><div class="aanbev-text">'+esc(a)+'</div></div>';
+  }).join('');
+
+  var html =
+    '<div class="res-header">' +
+      '<div class="res-proj">'+esc(naam)+(locatie?' · '+esc(locatie):'')+'</div>' +
+      '<div class="res-title">'+doelgroepen.length+' <em>doelgroepen</em> gevonden</div>' +
+      (samenvatting ? '<div class="res-sum">'+esc(samenvatting)+'</div>' : '') +
+    '</div>' +
+    '<div class="section-lbl">Doelgroepprofielen</div>' +
+    '<div class="persona-grid">'+personaCards+'</div>' +
+    (aanbev.length ? '<div class="section-lbl">Marketingaanbevelingen</div><div class="aanbev-list">'+aanbevHtml+'</div>' : '') +
+    '<div class="actions">' +
+      '<button class="act-btn act-primary" onclick="exportPDF()" id="pdfBtn">&#8681;&nbsp; Download PDF</button>' +
+      '<button class="act-btn act-ghost" onclick="resetTool()">&#8635;&nbsp; Nieuw project</button>' +
+    '</div>';
+
+  var sec = document.getElementById('resultsSection');
+  sec.innerHTML = html;
+  sec.style.display = 'block';
+  sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function toggleCard(i) {
+  var card = document.getElementById('pcard'+i);
+  var isOpen = card.classList.contains('open');
+  // close all
+  document.querySelectorAll('.p-card').forEach(function(c){ c.classList.remove('open'); });
+  if (!isOpen) card.classList.add('open');
+}
+
+function resetTool() {
+  document.getElementById('hero').style.display = 'flex';
+  document.getElementById('resultsSection').style.display = 'none';
+  document.getElementById('statusBar').classList.remove('show');
+  document.getElementById('runBtn').disabled = false;
+  document.getElementById('formCard').style.opacity = '1';
+  document.getElementById('formCard').style.pointerEvents = '';
+  document.getElementById('hero').scrollIntoView({ behavior: 'smooth' });
+}
+
+function exportPDF() {
+  if (!_data) return;
+  var btn = document.getElementById('pdfBtn');
+  btn.disabled = true;
+  btn.textContent = 'PDF genereren…';
+
+  var d = _data;
+  var data = d.result;
+  var doelgroepen = data.doelgroepen || [];
+
+  var personaHTML = doelgroepen.map(function(p) {
+    var mootieven = (p.koopmootieven||[]).map(function(m){ return '<li style="margin-bottom:4px;color:#AFAEB2;font-size:12px">• '+esc(m)+'</li>'; }).join('');
+    var bezwaren  = (p.bezwaren||[]).map(function(b){ return '<li style="margin-bottom:4px;color:#AFAEB2;font-size:12px">• '+esc(b)+'</li>'; }).join('');
+    var j = p.journey || {};
+    var fasen = ['bewustwording','orientatie','overweging','beslissing','after_sales'];
+    var fasenLabels = ['Bewustwording','Oriëntatie','Overweging','Beslissing','After-sales'];
+    var journeyRows = fasen.filter(function(f){ return j[f]; }).map(function(f,i){
+      return '<tr><td style="font-size:10px;font-weight:700;color:#89B647;padding:5px 10px 5px 0;white-space:nowrap;vertical-align:top">'+fasenLabels[i]+'</td><td style="font-size:11.5px;color:#AFAEB2;padding:5px 0">'+esc(j[f])+'</td></tr>';
+    }).join('');
+    return '<div style="background:#161615;border:1px solid #2f2f2d;border-radius:10px;padding:18px;margin-bottom:12px;page-break-inside:avoid">' +
+      '<div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">' +
+        '<div style="width:38px;height:38px;background:rgba(124,167,63,.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px">'+esc(p.emoji||'👤')+'</div>' +
+        '<div>' +
+          '<div style="font-size:14px;font-weight:800;color:#fff">'+esc(p.naam)+'</div>' +
+          '<div style="font-size:11px;color:#AFAEB2">'+esc(p.leeftijd||'')+(p.inkomen?' &middot; '+esc(p.inkomen):'')+'</div>' +
+        '</div>' +
+      '</div>' +
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">' +
+        '<div><div style="font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#89B647;margin-bottom:6px">Koopmootieven</div><ul style="list-style:none;padding:0;margin:0">'+mootieven+'</ul></div>' +
+        '<div><div style="font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#d9713e;margin-bottom:6px">Bezwaren</div><ul style="list-style:none;padding:0;margin:0">'+bezwaren+'</ul></div>' +
+      '</div>' +
+      '<div style="font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#AFAEB2;margin-bottom:6px">Customer Journey</div>' +
+      '<table style="width:100%;border-collapse:collapse">'+journeyRows+'</table>' +
+      (p.boodschap ? '<div style="margin-top:10px;background:rgba(124,167,63,.08);border:1px solid rgba(124,167,63,.2);border-radius:6px;padding:10px 12px;font-size:12px;color:#AFAEB2;font-style:italic">"'+esc(p.boodschap)+'"</div>' : '') +
+    '</div>';
+  }).join('');
+
+  var aanbevRows = (data.aanbevelingen||[]).map(function(a,i){
+    return '<div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:8px"><span style="font-size:10px;font-weight:800;color:#89B647;background:rgba(137,182,71,.1);padding:3px 8px;border-radius:999px;white-space:nowrap">'+(i+1).toString().padStart(2,'0')+'</span><div style="font-size:12.5px;color:#AFAEB2;line-height:1.6">'+esc(a)+'</div></div>';
+  }).join('');
+
+  document.getElementById('pdf-output').innerHTML =
+    '<div style="padding:40px">' +
+      '<div style="display:flex;align-items:center;gap:10px;margin-bottom:32px">' +
+        '<div style="width:30px;height:30px;background:#7CA73F;border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;color:#fff">S</div>' +
+        '<div style="font-weight:800;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#7CA73F">Spring Real Estate</div>' +
+      '</div>' +
+      '<div style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#AFAEB2;margin-bottom:8px">'+esc(d.project.naam||'')+(d.project.locatie?' &middot; '+esc(d.project.locatie):'')+'</div>' +
+      '<div style="font-size:28px;font-weight:800;color:#fff;margin-bottom:12px">Doelgroepanalyse</div>' +
+      (data.samenvatting ? '<div style="font-size:13px;color:#AFAEB2;line-height:1.7;margin-bottom:28px;max-width:600px">'+esc(data.samenvatting)+'</div>' : '') +
+      '<div style="font-size:9.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#AFAEB2;margin-bottom:16px;border-bottom:1px solid #3C3C3B;padding-bottom:8px">Doelgroepprofielen</div>' +
+      personaHTML +
+      (aanbevRows ? '<div style="font-size:9.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#AFAEB2;margin:24px 0 12px;border-top:1px solid #3C3C3B;padding-top:16px">Marketingaanbevelingen</div>' + aanbevRows : '') +
+      '<div style="margin-top:32px;font-size:10px;color:#8a8a8c;text-align:center;border-top:1px solid #3C3C3B;padding-top:16px">Spring Real Estate &middot; Projectmarketing &amp; Makelaardij</div>' +
+    '</div>';
+
+  var projSlug = (d.project.naam||'doelgroepen').toLowerCase().replace(/[^a-z0-9]/g,'-');
+  html2pdf().set({
+    margin:0, filename: 'doelgroepen-'+projSlug+'.pdf',
+    image:{ type:'jpeg', quality:.92 },
+    html2canvas:{ scale:1.5, backgroundColor:'#0c0c0c', useCORS:true },
+    jsPDF:{ unit:'mm', format:'a4', orientation:'portrait' }
+  }).from(document.getElementById('pdf-output')).save().then(function(){
+    btn.disabled = false;
+    btn.innerHTML = '&#8681;&nbsp; Download PDF';
+  });
+}
+</script>
+</body>
+</html>
